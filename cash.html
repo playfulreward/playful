@@ -1,0 +1,822 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script
+async
+src="https://www.googletagmanager.com/gtag/js?id=G-9SC83J1GEE"
+></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag() {
+dataLayer.push(arguments);
+}
+gtag("js", new Date());
+
+gtag("config", "G-9SC83J1GEE");
+</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cash</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+sans-serif;
+-webkit-tap-highlight-color: transparent;
+-webkit-user-select: none;
+user-select: none;
+}
+
+body {
+background: #fff;
+min-height: 100vh;
+position: relative;
+overflow-x: hidden;
+color: #2f3033;
+padding-top: 20px;
+}
+
+.page-container {
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 20px;
+}
+
+.reward-card {
+background: rgba(255, 255, 255, 0.95);
+border-radius: 24px;
+padding: 1rem;
+position: relative;
+z-index: 2;
+backdrop-filter: blur(10px);
+border: 1px solid #04040433;
+max-width: 450px;
+width: 100%;
+box-shadow: 0 10px 30px #0404041a, 0 1px 8px #04040433;
+animation: cardFloat 3s ease-in-out infinite;
+}
+
+@keyframes cardFloat {
+0%,
+100% {
+transform: translatey(0px);
+}
+50% {
+transform: translatey(-10px);
+}
+}
+
+.app-logo-container {
+text-align: center;
+margin-bottom: 0.5rem;
+padding-bottom: 0.5rem;
+border-bottom: 1px solid #0404041a;
+position: relative;
+}
+
+.app-logo {
+width: 150px;
+height: auto;
+filter: drop-shadow(0 4px 12px #0404044d);
+animation: logoShine 3s infinite;
+display: block;
+margin: 0 auto;
+border-radius: 8px;
+}
+
+@keyframes logoShine {
+0% {
+filter: drop-shadow(0 4px 12px #0404044d);
+}
+50% {
+filter: drop-shadow(0 8px 20px #04040480);
+}
+100% {
+filter: drop-shadow(0 4px 12px #0404044d);
+}
+}
+
+.cash-text {
+text-align: center;
+font-size: 1.8rem;
+font-weight: 800;
+margin-top: 0.5rem;
+color: #040404;
+text-shadow: 0 4px 20px #0404044d;
+}
+
+.amount {
+font-size: 2.2rem;
+font-weight: 700;
+text-align: center;
+color: #040404;
+margin: 0rem 0 0rem 0;
+text-shadow: 0 4px 20px #0404044d;
+animation: amountPulse 2s infinite;
+}
+
+@keyframes amountPulse {
+0%,
+100% {
+transform: scale(1);
+}
+50% {
+transform: scale(1.05);
+}
+}
+
+.amount-subtext {
+text-align: center;
+font-size: 1.2rem;
+font-weight: 600;
+margin-bottom: 0.5rem;
+color: #040404;
+text-shadow: 0 2px 10px #0404044d;
+}
+
+.instructions-container {
+margin: 1rem auto;
+padding: 1rem;
+background: #0404040d;
+border-radius: 16px;
+border: 1px solid #0404041a;
+}
+
+.instruction-item {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 12px;
+padding: 8px 0;
+font-size: 0.95rem;
+color: #2f3033;
+font-weight: 600;
+}
+
+.number {
+background: #040404;
+color: white;
+width: 24px;
+height: 24px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 0.9rem;
+font-weight: 700;
+box-shadow: 0 2px 8px rgba(0, 214, 48, 0.2);
+}
+
+.verd-logo {
+width: 150px;
+height: auto;
+display: block;
+margin: 0.5rem auto 0;
+}
+
+.instruction-item span {
+text-transform: capitalize;
+}
+
+.underline {
+text-decoration: underline;
+text-decoration-color: #040404;
+text-decoration-thickness: 2px;
+text-underline-offset: 2px;
+}
+
+.claim-button {
+background: #040404;
+color: white;
+border: none;
+padding: 1rem;
+border-radius: 20px;
+font-weight: 800;
+font-size: 1.1rem;
+width: 100%;
+max-width: 400px;
+cursor: pointer;
+margin: 1rem auto;
+display: block;
+box-shadow: 0 10px 30px #0404044d, 0 5px 15px #04040433;
+transition: all 0.3s ease;
+}
+
+.claim-button:hover {
+transform: translatey(-5px);
+box-shadow: 0 15px 40px #04040466, 0 8px 20px #0404044d;
+}
+
+.trust-badge {
+width: 100% !important;
+height: auto !important;
+margin-top: 0.5rem;
+border-radius: 12px;
+opacity: 0.9;
+transition: opacity 0.3s ease;
+}
+
+.trust-badge:hover {
+opacity: 1;
+}
+
+.notification {
+position: fixed;
+top: 20px;
+left: 50%;
+transform: translateX(-50%) translateY(-100%);
+background: rgba(255, 255, 255, 0.95);
+padding: 15px 20px;
+border-radius: 12px;
+box-shadow: 0 8px 32px #04040433;
+display: flex;
+align-items: center;
+gap: 12px;
+font-size: 14px;
+color: #2f3033;
+z-index: 750;
+backdrop-filter: blur(10px);
+border: 1px solid #04040433;
+transition: transform 0.3s ease;
+max-width: 320px;
+width: calc(100% - 2rem);
+}
+
+.notification.show {
+transform: translateX(-50%) translateY(0);
+}
+
+.notification-icon {
+width: 24px;
+height: 24px;
+background: #040404;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+font-size: 12px;
+}
+
+.notification-content {
+flex: 1;
+}
+
+.notification-title {
+font-weight: 600;
+margin-bottom: 2px;
+}
+
+.notification-text {
+color: #666;
+font-size: 13px;
+}
+
+#nameAlert {
+position: fixed;
+top: 10px;
+left: 50%;
+transform: translatex(-50%) translatey(0);
+background: rgba(255, 255, 255, 0.95);
+color: #2f3033;
+padding: 12px 20px;
+border-radius: 16px;
+box-shadow: 0 8px 32px #04040433;
+align-items: center;
+justify-content: center;
+text-align: center;
+gap: 12px;
+font-size: 14px;
+font-weight: 500;
+z-index: 750;
+width: calc(100% - 2rem);
+max-width: 320px;
+backdrop-filter: blur(10px);
+margin: 0 auto;
+border: 1px solid #04040433;
+animation: slideDown 0.3s ease-out;
+display: none;
+}
+
+@keyframes slideDown {
+from {
+transform: translatex(-50%) translatey(-100%);
+opacity: 0;
+}
+to {
+transform: translatex(-50%) translatey(0);
+opacity: 1;
+}
+}
+</style>
+<script type="text/javascript">
+(function (c, l, a, r, i, t, y) {
+c[a] =
+c[a] ||
+function () {
+(c[a].q = c[a].q || []).push(arguments);
+};
+t = l.createElement(r);
+t.async = 1;
+t.src = "https://www.clarity.ms/tag/" + i;
+y = l.getElementsByTagName(r)[0];
+y.parentNode.insertBefore(t, y);
+})(window, document, "clarity", "script", "tw9e72l0dn");
+</script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript
+><iframe
+src="https://www.googletagmanager.com/ns.html?id=GTM-TC2XWSJD"
+height="0"
+width="0"
+style="display: none; visibility: hidden"
+></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div
+id="particles-js"
+style="position: fixed; width: 100%; height: 100%; z-index: 1"
+></div>
+<div id="nameAlert">
+<span style="font-size: 24px">💵</span>
+<div><span class="name">Olivia M.</span> claimed $750!</div>
+</div>
+<div class="page-container">
+<div class="reward-card">
+<div class="app-logo-container">
+<img
+id="cashImage"
+alt="Cash"
+width="100"
+height="100"
+class="app-logo"
+src="https://i.imgur.com/mQfSXvD.png"
+/>
+<div class="cash-text">Cash Balance</div>
+<a
+href="https://spnccrzone.com/?nc2u=C6DaoZe1qt4ydrB4QoPxoDt%2B5%2B63AQzmvQJDRoz7h5U%3D&s1="
+target="_blank"
+rel="noreferrer"
+style="display: inline-block; cursor: pointer"
+>
+<img
+alt="Verified"
+width="80"
+height="80"
+class="verd-logo"
+src="https://i.imgur.com/4H7SrAd.png"
+/>
+</a>
+</div>
+<div id="amount" class="amount">$750</div>
+<div class="amount-subtext">deposited to you</div>
+<div class="instructions-container">
+<div class="instruction-item">
+<span class="number">1</span>
+<span>Click the Button Below</span>
+</div>
+<div class="instruction-item">
+<span class="number">2</span>
+<span>Enter Your Email & Info</span>
+</div>
+<div class="instruction-item">
+<span class="number">3</span>
+<a
+href="https://spnccrzone.com/?nc2u=C6DaoZe1qt4ydrB4QoPxoDt%2B5%2B63AQzmvQJDRoz7h5U%3D&s1="
+target="_blank"
+rel="noreferrer"
+style="
+color: inherit;
+text-decoration: underline;
+cursor: pointer;
+display: block;
+"
+>
+<span class="underline">Complete <b>at least</b> 3-5 Deals</span>
+</a>
+</div>
+<div class="instruction-item">
+<span class="number">4</span>
+<span>Claim Reward & Repeat</span>
+</div>
+</div>
+<div class="button-container">
+<button id="claimButton" class="claim-button">
+Get Your $750 →
+</button>
+<a
+href="https://spnccrzone.com/?nc2u=C6DaoZe1qt4ydrB4QoPxoDt%2B5%2B63AQzmvQJDRoz7h5U%3D&s1="
+target="_blank"
+rel="noreferrer"
+style="display: inline-block; cursor: pointer"
+>
+<img
+alt="Trust Badge"
+class="trust-badge"
+src="https://i.imgur.com/LXKQnXj.png"
+/>
+</a>
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+// Particles.js configuration
+particlesJS("particles-js", {
+particles: {
+number: { value: 80, density: { enable: true, value_area: 800 } },
+color: { value: "#040404" },
+shape: { type: "circle" },
+opacity: { value: 0.5, random: false },
+size: { value: 3, random: true },
+line_linked: {
+enable: true,
+distance: 150,
+color: "#040404",
+opacity: 0.4,
+width: 1,
+},
+move: {
+enable: true,
+speed: 6,
+direction: "none",
+random: false,
+straight: false,
+out_mode: "out",
+bounce: false,
+},
+},
+interactivity: {
+detect_on: "canvas",
+events: {
+onhover: { enable: true, mode: "repulse" },
+onclick: { enable: true, mode: "push" },
+resize: true,
+},
+},
+retina_detect: true,
+});
+
+// Names for the name alert
+const NAMES = [
+"Ava R.",
+"Ethan T.",
+"Luna W.",
+"Caleb R.",
+"Aria K.",
+"Julian P.",
+"Piper S.",
+"Gabriel L.",
+"Sofia G.",
+"Alexander T.",
+"Mia M.",
+"Logan D.",
+"Isabella W.",
+"Benjamin R.",
+"Charlotte K.",
+"Oliver P.",
+"Abigail S.",
+"Elijah L.",
+"Emily G.",
+"William T.",
+"Harper M.",
+"Lucas D.",
+"Amelia W.",
+"Mason R.",
+"Evelyn K.",
+"Liam P.",
+"Hannah S.",
+"Noah L.",
+"Abigail G.",
+"Ethan T.",
+"Zoe M.",
+"Jackson B.",
+"Victoria L.",
+"Daniel K.",
+"Madison P.",
+"Samuel R.",
+"Grace H.",
+"Henry W.",
+"Scarlett F.",
+"Sebastian M.",
+"Chloe D.",
+"Wyatt S.",
+"Penelope R.",
+"Owen L.",
+"Layla K.",
+"Nathan P.",
+"Riley S.",
+"Leo M.",
+"Hazel G.",
+"Isaac T.",
+];
+
+// Notification system
+const notifications = [
+{
+icon: "👥",
+title: "Active Viewers",
+text: "12 people are viewing this offer right now",
+},
+{
+icon: "🎉",
+title: "Recent Claims",
+text: "3 people claimed their reward in the last 5 minutes",
+},
+{
+icon: "📍",
+title: "Local Activity",
+text: "5 people in your city just claimed rewards",
+},
+{
+icon: "🔥",
+title: "Trending Now",
+text: "This offer is trending in your area",
+},
+{
+icon: "⭐",
+title: "Popular Offer",
+text: "Popular offer - 45 people claimed today",
+},
+{
+icon: "🌍",
+title: "Nearby Activity",
+text: "Trending in your area - 8 people nearby just claimed",
+},
+{
+icon: "🎯",
+title: "Almost There",
+text: "You're 2 steps away from claiming your reward",
+},
+{
+icon: "⏳",
+title: "Limited Spots",
+text: "Only 3 spots left for today's rewards",
+},
+{
+icon: "📊",
+title: "Reward Status",
+text: "Reward pool is 89% depleted",
+},
+{
+icon: "⏰",
+title: "Time Sensitive",
+text: "Last chance to claim before cards run out",
+},
+];
+
+// Currency symbol mapping
+const currencyMap = {
+US: "$",
+CA: "CA$",
+GB: "£",
+AU: "A$",
+DE: "€",
+FR: "€",
+IT: "€",
+ES: "€",
+NL: "€",
+SE: "kr",
+NO: "kr",
+DK: "kr",
+FI: "€",
+CH: "CHF",
+AT: "€",
+BE: "€",
+IE: "€",
+PT: "€",
+PL: "zł",
+CZ: "Kč",
+HU: "Ft",
+SK: "€",
+SI: "€",
+HR: "kn",
+RO: "lei",
+BG: "лв",
+GR: "€",
+CY: "€",
+MT: "€",
+LU: "€",
+EE: "€",
+LV: "€",
+LT: "€",
+JP: "¥",
+KR: "₩",
+CN: "¥",
+IN: "₹",
+BR: "R$",
+MX: "$",
+AR: "$",
+CL: "$",
+CO: "$",
+PE: "S/",
+VE: "Bs",
+ZA: "R",
+NG: "₦",
+EG: "£",
+MA: "د.م.",
+KE: "KSh",
+GH: "₵",
+RU: "₽",
+TR: "₺",
+IL: "₪",
+AE: "د.إ",
+SA: "ر.س",
+TH: "฿",
+VN: "₫",
+ID: "Rp",
+MY: "RM",
+SG: "S$",
+PH: "₱",
+NZ: "NZ$",
+};
+
+// Global currency variable
+let currentCurrency = "$";
+
+// Function to update currency symbol
+function updateCurrencySymbol(countryCode) {
+currentCurrency = currencyMap[countryCode] || "$";
+
+// Update the amount display
+const amountElement = document.getElementById("amount");
+if (amountElement) {
+const amountValue = 750;
+amountElement.textContent = `${currentCurrency}${amountValue}`;
+}
+
+// Update the button text
+const claimButton = document.getElementById("claimButton");
+if (claimButton) {
+claimButton.textContent = `Get Your ${currentCurrency}750 →`;
+}
+
+// Update nameAlert text
+const nameAlert = document.getElementById("nameAlert");
+if (nameAlert) {
+const nameSpan = nameAlert.querySelector(".name");
+if (nameSpan) {
+nameAlert.innerHTML = `<span style="font-size: 24px">💵</span><div><span class="name">${nameSpan.textContent}</span> claimed ${currentCurrency}750!</div>`;
+}
+}
+
+// Update page title
+document.title = `Cash - ${currentCurrency}750 Balance`;
+}
+
+// Function to update image based on country
+function updateImageByCountry(countryCode) {
+const cashImage = document.getElementById("cashImage");
+if (cashImage) {
+if (countryCode === "US") {
+cashImage.src = "https://i.imgur.com/mQfSXvD.png";
+} else if (countryCode === "GB") {
+cashImage.src = "https://i.imgur.com/mQfSXvD.png";
+} else {
+// Default to US image for other countries
+cashImage.src = "https://i.imgur.com/mQfSXvD.png";
+}
+}
+}
+
+// Geo location detection
+function updateGeoLocation() {
+return fetch("https://ipinfo.io/json?token=f1fb8d3a1d0b74")
+.then((response) => response.json())
+.then((data) => {
+if (data.country) {
+// Update currency symbol based on country
+updateCurrencySymbol(data.country);
+// Update image based on country
+updateImageByCountry(data.country);
+} else {
+updateCurrencySymbol("US");
+updateImageByCountry("US");
+}
+})
+.catch((error) => {
+console.log("Geo detection failed:", error);
+updateCurrencySymbol("US");
+updateImageByCountry("US");
+});
+}
+
+// Counter animation function
+function animateValue(element, start, end, duration) {
+let startTimestamp = null;
+const step = (timestamp) => {
+if (!startTimestamp) startTimestamp = timestamp;
+const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+const currentValue = Math.floor(progress * (end - start) + start);
+element.textContent = `${currentCurrency}${currentValue.toFixed(2)}`;
+if (progress < 1) {
+window.requestAnimationFrame(step);
+}
+};
+window.requestAnimationFrame(step);
+}
+
+// Create notification function
+function createNotification() {
+const notification = document.createElement("div");
+notification.className = "notification";
+
+// Randomly decide between name notification and regular notification
+const isNameNotification = Math.random() > 0.5;
+
+if (isNameNotification) {
+// Name notification
+const randomName = NAMES[Math.floor(Math.random() * NAMES.length)];
+notification.innerHTML = `
+<div class="notification-icon">💵</div>
+<div class="notification-content">
+<div class="notification-title">Recent Claim</div>
+<div class="notification-text"><span class="name">${randomName}</span> claimed ${currentCurrency}750!</div>
+</div>
+`;
+} else {
+// Regular notification
+const randomNotification =
+notifications[Math.floor(Math.random() * notifications.length)];
+notification.innerHTML = `
+<div class="notification-icon">${randomNotification.icon}</div>
+<div class="notification-content">
+<div class="notification-title">${randomNotification.title}</div>
+<div class="notification-text">${randomNotification.text}</div>
+</div>
+`;
+}
+
+document.body.appendChild(notification);
+
+// Trigger animation
+setTimeout(() => {
+notification.classList.add("show");
+}, 100);
+
+// Remove notification after 5 seconds
+setTimeout(() => {
+notification.classList.remove("show");
+setTimeout(() => {
+notification.remove();
+}, 300);
+}, 5000);
+}
+
+// Start notifications
+function startNotifications() {
+// Initial delay before first notification
+setTimeout(() => {
+createNotification();
+// Show notifications every 8-12 seconds
+setInterval(() => {
+createNotification();
+}, Math.random() * 4000 + 8000);
+}, 3000);
+}
+
+// Start count-up animation when page loads
+window.addEventListener("load", function () {
+// Load geo location first to set currency, then start animation
+updateGeoLocation()
+.then(() => {
+const amountElement = document.getElementById("amount");
+const amountText = amountElement.textContent;
+const amountValue = parseInt(amountText.replace(/[^0-9]/g, ""));
+animateValue(amountElement, 0, amountValue, 2000); // Animate from 0 to the amount value over 2 seconds
+})
+.catch(() => {
+// If geo location fails, still start animation with default currency
+const amountElement = document.getElementById("amount");
+const amountText = amountElement.textContent;
+const amountValue = parseInt(amountText.replace(/[^0-9]/g, ""));
+animateValue(amountElement, 0, amountValue, 2000);
+});
+
+startNotifications(); // Start notifications
+});
+
+// Claim button click handler
+document
+.getElementById("claimButton")
+.addEventListener("click", function () {
+const a = document.createElement("a");
+
+a.href = "https://spnccrzone.com/?nc2u=C6DaoZe1qt4ydrB4QoPxoDt%2B5%2B63AQzmvQJDRoz7h5U%3D&s1=";
+a.rel = "noreferrer";
+a.target = "_blank";
+a.click();
+});
+</script>
+</body>
+</html>
