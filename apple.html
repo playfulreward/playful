@@ -311,9 +311,40 @@ animation: pulse 3s ease-in-out infinite;
 </div>
 
 <script>
-// Replace with your deep link
-const CTA_URL = "https://t.afftrackr.com/?OO=r69bRxeTJo0pPVvOrCvSiW2n44FyuJDLvQJDRoz7h5U%3d&s1=";
-document.getElementById("cta").href = CTA_URL;
+<script>
+(function () {
+  const CTA_URL = "https://t.afftrackr.com/?OO=r69bRxeTJo0pPVvOrCvSiW2n44FyuJDLvQJDRoz7h5U%3d&s1=";
+
+  const params = new URLSearchParams(window.location.search);
+  const finalParams = new URLSearchParams();
+
+  // ---- sub2 logic ----
+  const sub2 = params.get('sub2');
+  if (sub2) {
+    const v = sub2.toLowerCase();
+    const key = (v.startsWith('ca') || v.startsWith('feng12'))
+      ? 'aff_sub3'
+      : 'sub2';
+    finalParams.set(key, sub2);
+  }
+
+  // ---- s1 / s2 / s3 passthrough ----
+  ['s1', 's2', 's3'].forEach(k => {
+    const v = params.get(k);
+    if (v) finalParams.set(k, v);
+  });
+
+  let finalUrl = CTA_URL;
+
+  if (finalParams.toString()) {
+    finalUrl += (CTA_URL.endsWith('?') || CTA_URL.endsWith('&') ? '' : '&')
+      + finalParams.toString();
+  }
+
+  document.getElementById("cta").href = finalUrl;
+})();
+</script>
+
 
 // Animate progress bar to ~73%
 window.addEventListener("load", () => {
@@ -405,3 +436,4 @@ card.style.transform = '';
 </script>
 </body>
 </html>
+
