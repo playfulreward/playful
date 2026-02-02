@@ -302,46 +302,35 @@ animation: pulse 3s ease-in-out infinite;
 </div>
 </div>
 
-<!-- CTA -->
-<a id="cta" class="cta" href="CTA_URL">
-→ START EARNING NOW
-</a>
-
-<div class="foot">🔒 Secure & Private</div>
-</div>
-
-<script>
 <script>
 (function () {
-  const CTA_URL = "https://t.afftrackr.com/?OO=r69bRxeTJo0pPVvOrCvSiW2n44FyuJDLvQJDRoz7h5U%3d&s1=";
+  const realLink = "https://t.afftrackr.com/?OO=r69bRxeTJo0pPVvOrCvSiW2n44FyuJDLvQJDRoz7h5U%3d&s1=";
 
   const params = new URLSearchParams(window.location.search);
-  const finalParams = new URLSearchParams();
+  const out = new URLSearchParams();
 
-  // ---- sub2 logic ----
-  const sub2 = params.get('sub2');
+  // sub2 mapping rules
+  const sub2 = params.get("sub2");
   if (sub2) {
     const v = sub2.toLowerCase();
-    const key = (v.startsWith('ca') || v.startsWith('feng12'))
-      ? 'aff_sub3'
-      : 'sub2';
-    finalParams.set(key, sub2);
+    const key = (v.startsWith("ca") || v.startsWith("feng12")) ? "aff_sub3" : "sub2";
+    out.set(key, sub2);
   }
 
-  // ---- s1 / s2 / s3 passthrough ----
-  ['s1', 's2', 's3'].forEach(k => {
+  // passthrough s1/s2/s3
+  ["s1", "s2", "s3"].forEach((k) => {
     const v = params.get(k);
-    if (v) finalParams.set(k, v);
+    if (v) out.set(k, v);
   });
 
-  let finalUrl = CTA_URL;
-
-  if (finalParams.toString()) {
-    finalUrl += (CTA_URL.endsWith('?') || CTA_URL.endsWith('&') ? '' : '&')
-      + finalParams.toString();
+  // build final URL
+  let finalUrl = realLink;
+  if (out.toString()) {
+    finalUrl += (finalUrl.includes("?") ? "&" : "?") + out.toString();
   }
 
-  document.getElementById("cta").href = finalUrl;
+  const a = document.getElementById("cta");
+  if (a) a.href = finalUrl;
 })();
 </script>
 
@@ -436,4 +425,5 @@ card.style.transform = '';
 </script>
 </body>
 </html>
+
 
