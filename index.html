@@ -373,28 +373,76 @@
       </div>
 
 <!-- CTA Button -->
-<a href="javascript:void(0)" class="cta-button" onclick="geoRedirect()">
+<a href="javascript:void(0)" class="cta-button" id="ctaBtn">
   <span>🚀</span>
   <span>START EARNING NOW</span>
 </a>
 
 <script>
-function geoRedirect() {
-  fetch('https://ipapi.co/json/')
-    .then(r => r.json())
-    .then(d => {
-      if (d.country_code === 'US') {
-        location.href = 'https://t.afftrackr.com/?bbz=zx2qP%2fQPuBrs04HBvLdwvNC%2fsOXuQ0JEvQJDRoz7h5U%3d';
-      } else if (d.country_code === 'GB') {
-        location.href = 'https://affrkr.com/?eqi=zx2qP%2FQPuBrl7iILaU%2BBHkRsKTzW1tjvvQJDRoz7h5U%3D';
-      } else if (d.country_code === 'CA') {
-        location.href = 'https://affrkr.com/?OO=r69bRxeTJo1SKeoo5%2beMPeC%2fwNAd2HX1vQJDRoz7h5U%3d';
-      } else {
-        location.href = 'https://t.afftrackr.com/?bbz=zx2qP%2fQPuBrs04HBvLdwvNC%2fsOXuQ0JEvQJDRoz7h5U%3d';
-      }
-    });
+let redirecting = false;
+
+// Build "&s1=...&s2=...&s3=..." from the current page URL (only if present)
+function getPassthroughParams() {
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const s1 = urlParams.get('s1');
+  const s2 = urlParams.get('s2');
+  const s3 = urlParams.get('s3');
+
+  const out = new URLSearchParams();
+  if (s1) out.set('s1', s1);
+  if (s2) out.set('s2', s2);
+  if (s3) out.set('s3', s3);
+
+  const str = out.toString();
+  return str ? `&${str}` : '';
 }
+
+// Append passthrough safely (handles whether the base URL ends with ? or has params already)
+function appendParams(baseUrl, passthrough) {
+  if (!passthrough) return baseUrl;
+
+  // baseUrl already has "?" so we can append with "&..."
+  if (baseUrl.includes('?')) return baseUrl + passthrough;
+
+  // If it somehow doesn't have "?", convert "&x=y" to "?x=y"
+  return baseUrl + '?' + passthrough.slice(1);
+}
+
+async function geoRedirect() {
+  if (redirecting) return;
+  redirecting = true;
+
+  const passthrough = getPassthroughParams();
+
+  // Base URLs
+  const US = 'https://t.afftrackr.com/?bbz=zx2qP%2fQPuBrs04HBvLdwvNC%2fsOXuQ0JEvQJDRoz7h5U%3d';
+  const GB = 'https://affrkr.com/?eqi=zx2qP%2FQPuBrl7iILaU%2BBHkRsKTzW1tjvvQJDRoz7h5U%3D';
+  const CA = 'https://affrkr.com/?OO=r69bRxeTJo1SKeoo5%2beMPeC%2fwNAd2HX1vQJDRoz7h5U%3d';
+
+  let redirectURL = US;
+
+  try {
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), 2000);
+
+    const res = await fetch('https://ipapi.co/json/', { signal: controller.signal });
+    const data = await res.json();
+
+    if (data.country_code === 'GB') redirectURL = GB;
+    else if (data.country_code === 'CA') redirectURL = CA;
+    else redirectURL = US;
+  } catch (e) {
+    // silent fail -> keep fallback
+  }
+
+  redirectURL = appendParams(redirectURL, passthrough);
+  window.location.href = redirectURL;
+}
+
+document.getElementById('ctaBtn').addEventListener('click', geoRedirect);
 </script>
+
 
       <!-- Features -->
       <div class="feature-card">
@@ -455,6 +503,7 @@ function geoRedirect() {
     </script>
   </body>
 </html>
+
 
 
 
