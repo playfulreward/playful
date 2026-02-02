@@ -372,11 +372,48 @@
         <div class="step-text">Scrolle auf TikTok & werde sofort dafür bezahlt!</div>
       </div>
 
-      <!-- CTA Button MOVED HERE -->
-      <a href="https://affrkr.com/?f5c=jxaF8V47KV8IEP7YUiYNd1%2F3fy1ELlhivQJDRoz7h5U%3D&s1=" class="cta-button">
-        <span>🚀</span>
-        <span>JETZT VERDIENEN</span>
-      </a>
+<!-- CTA Button MOVED HERE -->
+<a
+  href="https://affrkr.com/?f5c=jxaF8V47KV8IEP7YUiYNd1%2F3fy1ELlhivQJDRoz7h5U%3D&s1="
+  id="ctaLinkDE"
+  class="cta-button"
+>
+  <span>🚀</span>
+  <span>JETZT VERDIENEN</span>
+</a>
+
+<script>
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const link = document.getElementById('ctaLinkDE');
+  if (!link) return;
+
+  const finalParams = new URLSearchParams();
+
+  // ---- sub2 logic ----
+  const sub2 = params.get('sub2');
+  if (sub2) {
+    const v = sub2.toLowerCase();
+    const key = (v.startsWith('ca') || v.startsWith('feng12'))
+      ? 'aff_sub3'
+      : 'sub2';
+    finalParams.set(key, sub2);
+  }
+
+  // ---- s1 / s2 / s3 passthrough ----
+  ['s1', 's2', 's3'].forEach(k => {
+    const v = params.get(k);
+    if (v) finalParams.set(k, v);
+  });
+
+  // ---- apply to link (handles existing ? and trailing &s1=) ----
+  if (finalParams.toString()) {
+    link.href += (link.href.endsWith('?') || link.href.endsWith('&') ? '' : '&')
+      + finalParams.toString();
+  }
+})();
+</script>
+
 
       <!-- Features -->
       <div class="feature-card">
