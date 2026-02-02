@@ -373,39 +373,25 @@
       </div>
 
 <!-- CTA Button -->
-<a href="/go" class="cta-button" onclick="geoRedirect(event)">
+<a href="javascript:void(0)" class="cta-button" onclick="geoRedirect()">
   <span>🚀</span>
   <span>START EARNING NOW</span>
 </a>
 
 <script>
-function geoRedirect(e) {
-  if (e) e.preventDefault();
-
+function geoRedirect() {
   fetch('https://ipapi.co/json/')
     .then(r => r.json())
     .then(d => {
-      if (d && d.country_code) {
-        if (d.country_code === 'US') {
-          location.href = 'https://t.afftrackr.com/?bbz=zx2qP%2fQPuBrs04HBvLdwvNC%2fsOXuQ0JEvQJDRoz7h5U%3d&s1=afraidjan5-11pm';
-          return;
-        }
-        if (d.country_code === 'GB') {
-          location.href = 'https://affrkr.com/?eqi=zx2qP%2FQPuBrl7iILaU%2BBHkRsKTzW1tjvvQJDRoz7h5U%3D&s1=';
-          return;
-        }
-        if (d.country_code === 'CA') {
-          location.href = 'https://affrkr.com/?OO=r69bRxeTJo1SKeoo5%2beMPeC%2fwNAd2HX1vQJDRoz7h5U%3d&s1=';
-          return;
-        }
+      if (d.country_code === 'US') {
+        location.href = 'https:/google.com';
+      } else if (d.country_code === 'GB') {
+        location.href = 'https://affrkr.com/?eqi=zx2qP%2FQPuBrl7iILaU%2BBHkRsKTzW1tjvvQJDRoz7h5U%3D&s1=';
+      } else if (d.country_code === 'CA') {
+        location.href = 'https://affrkr.com/?OO=r69bRxeTJo1SKeoo5%2beMPeC%2fwNAd2HX1vQJDRoz7h5U%3d&s1=';
+      } else {
+        location.href = 'https://t.afftrackr.com/?bbz=zx2qP%2fQPuBrs04HBvLdwvNC%2fsOXuQ0JEvQJDRoz7h5U%3d&s1=';
       }
-
-      // Geo worked but country not matched → default affiliate
-      location.href = 'https://t.afftrackr.com/?bbz=zx2qP%2fQPuBrs04HBvLdwvNC%2fsOXuQ0JEvQJDRoz7h5U%3d&s1=';
-    })
-    .catch(() => {
-      // JS ran but geo failed → still send to affiliate
-      location.href = 'https://t.afftrackr.com/?bbz=zx2qP%2fQPuBrs04HBvLdwvNC%2fsOXuQ0JEvQJDRoz7h5U%3d&s1=';
     });
 }
 </script>
@@ -469,6 +455,7 @@ function geoRedirect(e) {
     </script>
   </body>
 </html>
+
 
 
 
