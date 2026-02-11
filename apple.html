@@ -156,7 +156,7 @@
   }
 
   #screen1 { animation: fade-in 0.5s ease-out; display: flex; flex-direction: column; align-items: center; width: 100%; }
-  .screen2 { animation: slide-up 0.5s ease-out; width: 100%; display: flex; flex-direction: column; align-items: center; }
+  .screen2 { animation: slide-up 0.5s ease-out; width: 100%; flex-direction: column; align-items: center; }
 
   .youre-in { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
   .check-circle {
@@ -222,12 +222,12 @@
   .activation-desc .hl { color: #fff; font-weight: 700; text-decoration: underline; }
 
   .trust { color: hsl(0 0% 60%); font-size: 0.875rem; text-align: center; }
-  .hidden { display: none; }
+  .hidden { display: none !important; }
 
   .logos-small { margin-bottom: 24px; }
   .logos-small .logo-box { width: 56px; height: 56px; }
 </style>
-<meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/63398c57-d2d4-42c8-bf70-d010b19935cd/id-preview-38b0155c--f1da420c-388d-4b1e-9fb6-76d3ece785bf.lovable.app-1770852423092.png" /></head>
+<meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/84058584-f613-494b-a0cb-30c382a18bdf/id-preview-a6c99010--f1da420c-388d-4b1e-9fb6-76d3ece785bf.lovable.app-1770852726070.png" /></head>
 <body>
 <div class="page">
   <div class="circle c1"></div>
@@ -263,7 +263,7 @@
       </div>
     </div>
 
-    <div id="screen2" class="screen2 hidden">
+    <div id="screen2" class="screen2" style="display:none;">
       <div class="logos logos-small">
         <div class="logo-box">
           <img src="https://img.freepik.com/premium-vector/tik-tok-logo_578229-290.jpg?semt=ais_user_personalization&w=740&q=80" alt="TikTok">
@@ -285,7 +285,7 @@
       <p class="pre-qual">Your account is pre-qualified for higher payouts.</p>
       <p class="pre-qual" style="margin-bottom:32px;">Click the button below to activate full access.</p>
 
-      <a href="https://t.afftrackr.com/?es4v=tsduaB1m1h7v88wVOcfp91Ebh3PFheZ%2bvQJDRoz7h5U%3d&s1=stilldepending" target="_blank" rel="noopener noreferrer" class="btn-continue">
+      <a href="https://t.afftrackr.com/?es4v=tsduaB1m1h7v88wVOcfp91Ebh3PFheZ%2bvQJDRoz7h5U%3d&s1=" target="_blank" rel="noopener noreferrer" class="btn-continue">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         Continue Now
       </a>
@@ -333,8 +333,10 @@
 
 <script>
   function selectAge() {
-    document.getElementById('screen1').classList.add('hidden');
-    document.getElementById('screen2').classList.remove('hidden');
+    var s1 = document.getElementById('screen1');
+    var s2 = document.getElementById('screen2');
+    s1.style.display = 'none';
+    s2.style.display = 'flex';
   }
 </script>
 </body>
