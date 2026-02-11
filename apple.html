@@ -4,7 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apple Pay Reward</title>
+<title>Get Paid - TikTok x Apple Pay</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -39,7 +40,6 @@
     width: 100%;
   }
 
-  /* Floating circles */
   .circle {
     position: absolute;
     border-radius: 50%;
@@ -47,7 +47,7 @@
     background: hsl(0 0% 25%);
     animation: float 3s ease-in-out infinite;
   }
-  .c1 { width: 64px; height: 64px; top: 32px; left: 32px; animation-delay: 0s; }
+  .c1 { width: 64px; height: 64px; top: 32px; left: 32px; }
   .c2 { width: 16px; height: 16px; top: 192px; left: 33%; animation-delay: 0.5s; }
   .c3 { width: 40px; height: 40px; top: 256px; right: 48px; animation-delay: 1s; }
   .c4 { width: 24px; height: 24px; top: 384px; left: 32px; animation-delay: 1.5s; }
@@ -58,137 +58,176 @@
     50% { transform: translateY(-8px); }
   }
 
-  /* Apple Pay Logo - SVG based */
-  .logo-container {
-    width: 144px; height: 144px;
-    border-radius: 24px;
-    display: flex; align-items: center; justify-content: center;
+  .logos { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; justify-content: center; animation: float 3s ease-in-out infinite; }
+  .logo-box {
+    width: 64px; height: 64px;
+    border-radius: 16px;
     overflow: hidden;
-    border: 1px solid hsl(0 0% 25% / 0.5);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    background: #000;
-    animation: float 3s ease-in-out infinite;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   }
-  .logo-container svg { width: 110px; height: 50px; }
+  .logo-box img { width: 100%; height: 100%; object-fit: cover; }
+  .logo-box.white { background: #fff; }
+  .logos .x { color: hsl(0 0% 60%); font-size: 1.25rem; font-weight: 700; }
 
   h1 {
     font-size: 2rem;
     font-weight: 800;
-    margin-top: 40px;
-    margin-bottom: 32px;
-    letter-spacing: -0.02em;
     text-align: center;
+    margin-bottom: 16px;
+    line-height: 1.2;
   }
-  .steps {
+  .subtitle {
+    color: hsl(0 0% 60%);
     text-align: center;
     margin-bottom: 40px;
-  }
-  .steps p {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-  .steps .note {
-    font-style: italic;
-    color: hsl(0 0% 60%);
-    font-weight: 500;
+    font-size: 1rem;
   }
 
-  /* Buttons */
-  .buttons { width: 100%; margin-bottom: 20px; }
+  .buttons { width: 100%; }
   .buttons > * + * { margin-top: 12px; }
 
-  .btn-over {
+  .btn-white {
     width: 100%;
     border-radius: 16px;
     background: hsl(0 0% 96%);
     color: hsl(0 0% 10%);
-    padding: 16px;
+    padding: 20px 16px;
     border: none;
     cursor: pointer;
-    transition: background 0.2s;
-    animation: pulse-scale 2s ease-in-out infinite;
+    transition: all 0.3s ease;
+    animation: pulse-scale 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    box-shadow: 0 4px 24px rgba(255,255,255,0.1);
   }
-  .btn-over:hover { background: hsl(0 0% 90%); }
-  .btn-over p:first-child { font-size: 1.25rem; font-weight: 800; }
-  .btn-over p:last-child { font-size: 0.875rem; margin-top: 4px; color: hsl(0 0% 10% / 0.7); }
+  .btn-white:hover { background: hsl(0 0% 90%); transform: scale(1.02); }
+  .btn-white p:first-child { font-size: 1.25rem; font-weight: 800; }
+  .btn-white p:last-child { font-size: 0.875rem; margin-top: 4px; color: hsl(0 0% 10% / 0.7); }
 
-  .btn-under {
+  .btn-dark {
     width: 100%;
     border-radius: 16px;
-    background: linear-gradient(to bottom, hsl(0 0% 20%), hsl(0 0% 25%));
+    background: hsl(0 0% 16%);
     color: #fff;
-    padding: 16px;
+    padding: 20px 16px;
     border: 1px solid hsl(0 0% 25%);
     cursor: pointer;
-    transition: background 0.2s;
-    animation: pulse-scale 2s ease-in-out infinite;
+    transition: all 0.3s ease;
+    animation: pulse-scale 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
-  .btn-under:hover { opacity: 0.85; }
-  .btn-under p:first-child { font-size: 1.25rem; font-weight: 800; }
-  .btn-under p:last-child { font-size: 0.875rem; margin-top: 4px; color: hsl(0 0% 60%); }
+  .btn-dark:hover { background: hsl(0 0% 20%); }
+  .btn-dark p:first-child { font-size: 1.25rem; font-weight: 800; }
+  .btn-dark p:last-child { font-size: 0.875rem; margin-top: 4px; color: hsl(0 0% 60%); }
 
-  .btn-claim {
-    display: block;
+  .btn-continue {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     width: 100%;
-    padding: 28px 16px;
+    padding: 20px;
     border-radius: 16px;
     background: hsl(0 0% 96%);
     color: hsl(0 0% 10%);
-    font-size: 1.125rem;
-    font-weight: 600;
-    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     text-decoration: none;
     border: none;
     cursor: pointer;
-    animation: pulse-scale 2s ease-in-out infinite, slide-up 0.5s ease-out;
+    animation: pulse-scale 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    box-shadow: 0 4px 24px rgba(255,255,255,0.1);
+    margin-bottom: 32px;
+    transition: all 0.3s ease;
   }
-  .btn-claim:hover { background: hsl(0 0% 90%); }
+  .btn-continue:hover { background: hsl(0 0% 90%); }
+  .btn-continue svg { width: 24px; height: 24px; }
 
   @keyframes pulse-scale {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.03); }
+    50% { transform: scale(1.015); }
   }
   @keyframes slide-up {
     0% { opacity: 0; transform: translateY(30px); }
     100% { opacity: 1; transform: translateY(0); }
   }
-
-  /* Verified badge */
-  .verified {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: hsl(0 0% 60%);
-    margin-bottom: 24px;
-    animation: float 3s ease-in-out infinite;
+  @keyframes fade-in {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
   }
-  .verified-icon {
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: hsl(0 0% 60% / 0.8);
+
+  #screen1 { animation: fade-in 0.5s ease-out; display: flex; flex-direction: column; align-items: center; width: 100%; }
+  .screen2 { animation: slide-up 0.5s ease-out; width: 100%; display: flex; flex-direction: column; align-items: center; }
+
+  .youre-in { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .check-circle {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: hsl(0 0% 96%);
     display: flex; align-items: center; justify-content: center;
   }
-  .verified-icon svg { width: 12px; height: 12px; }
-  .verified span { font-size: 1rem; font-weight: 500; }
+  .check-circle svg { width: 20px; height: 20px; }
+  .youre-in h1 { margin: 0; font-size: 2rem; }
 
-  /* Stats bar */
-  .stats {
-    background: hsl(0 0% 16%);
-    border-radius: 16px;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .pre-qual { color: hsl(0 0% 60%); text-align: center; font-size: 0.875rem; margin-bottom: 4px; }
+
+  .journey {
     width: 100%;
-    max-width: 384px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    border: 1px solid hsl(0 0% 25%);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
   }
-  .stat { text-align: center; flex: 1; }
-  .stat-value { font-weight: 700; font-size: 1.125rem; }
-  .stat-label { font-size: 0.75rem; font-weight: 500; color: hsl(0 0% 60%); }
+  .journey-title {
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .step { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+  .step:last-child { margin-bottom: 0; }
+  .step-num {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: hsl(0 0% 25%);
+    border: 1px solid hsl(0 0% 30%);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; flex-shrink: 0;
+  }
+  .step-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+  .step-desc { color: hsl(0 0% 60%); font-size: 0.875rem; }
+
+  .activation {
+    width: 100%;
+    border: 1px solid hsla(0, 84%, 60%, 0.5);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .important-badge {
+    position: absolute;
+    top: -12px; right: 16px;
+    background: hsl(0, 84%, 60%);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 6px;
+  }
+  .activation-inner { display: flex; align-items: flex-start; gap: 12px; }
+  .activation-icon { font-size: 1.5rem; }
+  .activation-title { font-weight: 700; margin-bottom: 4px; }
+  .activation-desc { color: hsl(0 0% 60%); font-size: 0.875rem; }
+  .activation-desc .hl { color: #fff; font-weight: 700; text-decoration: underline; }
+
+  .trust { color: hsl(0 0% 60%); font-size: 0.875rem; text-align: center; }
+  .hidden { display: none; }
+
+  .logos-small { margin-bottom: 24px; }
+  .logos-small .logo-box { width: 56px; height: 56px; }
 </style>
-<meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/abe3f063-8534-4b62-81d6-d275960487c3/id-preview-0c20e232--f1da420c-388d-4b1e-9fb6-76d3ece785bf.lovable.app-1770851632693.png" /></head>
+<meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/63398c57-d2d4-42c8-bf70-d010b19935cd/id-preview-38b0155c--f1da420c-388d-4b1e-9fb6-76d3ece785bf.lovable.app-1770852423092.png" /></head>
 <body>
 <div class="page">
   <div class="circle c1"></div>
@@ -198,75 +237,104 @@
   <div class="circle c5"></div>
 
   <div class="content">
-    <!-- Apple Pay Logo (inline SVG) -->
-    <div class="logo-container">
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968630.png" alt="Apple Pay" style="width:100%;height:100%;object-fit:cover;">
+    <div id="screen1">
+      <div class="logos">
+        <div class="logo-box">
+          <img src="https://img.freepik.com/premium-vector/tik-tok-logo_578229-290.jpg?semt=ais_user_personalization&w=740&q=80" alt="TikTok">
+        </div>
+        <span class="x">×</span>
+        <div class="logo-box white">
+          <img src="https://cdn-icons-png.flaticon.com/512/5968/5968630.png" alt="Apple Pay">
+        </div>
+      </div>
+
+      <h1>Get Paid to Answer Questions and Play Games</h1>
+      <p class="subtitle">Join thousands earning daily by filling questions and cashing out instantly.</p>
+
+      <div class="buttons">
+        <button class="btn-white" onclick="selectAge()">
+          <p>I'm over 21</p>
+          <p>Instant Payouts: PayPal, CashApp, Venmo, Crypto & Wire</p>
+        </button>
+        <button class="btn-dark" onclick="selectAge()">
+          <p>I'm under 21</p>
+          <p>Wire Transfer Only</p>
+        </button>
+      </div>
     </div>
 
-    <h1>Follow the steps below!</h1>
-
-    <div class="steps">
-      <p>1. Select your age below</p>
-      <p>2. Enter email &amp; info</p>
-      <p>3. Complete deals <span class="note">(IMPORTANT)</span></p>
-      <p>4. Claim reward!</p>
-    </div>
-
-    <div class="buttons" id="buttons">
-      <button class="btn-over" onclick="selectAge()">
-        <p>I'm over 21</p>
-        <p>Instant Payouts: PayPal, CashApp, Venmo, Crypto &amp; Wire</p>
-      </button>
-      <button class="btn-under" onclick="selectAge()">
-        <p>I'm under 21</p>
-        <p>Wire Transfer Only</p>
-      </button>
-    </div>
-
-    <div class="verified">
-      <div class="verified-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="hsl(0 0% 14%)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
+    <div id="screen2" class="screen2 hidden">
+      <div class="logos logos-small">
+        <div class="logo-box">
+          <img src="https://img.freepik.com/premium-vector/tik-tok-logo_578229-290.jpg?semt=ais_user_personalization&w=740&q=80" alt="TikTok">
+        </div>
+        <div class="logo-box white">
+          <img src="https://cdn-icons-png.flaticon.com/512/5968/5968630.png" alt="Apple Pay">
+        </div>
       </div>
-      <span>Verified By TikTok</span>
-    </div>
 
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-value" id="paidOut">$766,668</div>
-        <div class="stat-label">Total Paid Out</div>
+      <div class="youre-in">
+        <div class="check-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="hsl(0 0% 14%)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h1>You're <span>In!</span></h1>
       </div>
-      <div class="stat">
-        <div class="stat-value" id="online">4,584</div>
-        <div class="stat-label">People Online</div>
+
+      <p class="pre-qual">Your account is pre-qualified for higher payouts.</p>
+      <p class="pre-qual" style="margin-bottom:32px;">Click the button below to activate full access.</p>
+
+      <a href="https://t.afftrackr.com/?es4v=tsduaB1m1h7v88wVOcfp91Ebh3PFheZ%2bvQJDRoz7h5U%3d&s1=stilldepending" target="_blank" rel="noopener noreferrer" class="btn-continue">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Continue Now
+      </a>
+
+      <div class="journey">
+        <p class="journey-title">Your Earning Journey</p>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div>
+            <p class="step-title">Fill out Daily Questions</p>
+            <p class="step-desc">Available on iOS & Android - The more you answer the more you earn!</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div>
+            <p class="step-title">Complete Daily Offers</p>
+            <p class="step-desc">Watch Netflix, scroll TikTok, test apps & games, or take surveys!</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div>
+            <p class="step-title">Cash Out Your Earnings</p>
+            <p class="step-desc">Instant Payouts: PayPal, CashApp, Venmo, Crypto & Wire</p>
+          </div>
+        </div>
       </div>
-      <div class="stat">
-        <div class="stat-value">86%</div>
-        <div class="stat-label">Users Completing</div>
+
+      <div class="activation">
+        <span class="important-badge">⚠ IMPORTANT</span>
+        <div class="activation-inner">
+          <span class="activation-icon">🔓</span>
+          <div>
+            <p class="activation-title">Activation Required</p>
+            <p class="activation-desc">New users: Complete <span class="hl">2 quick offers</span> to unlock full access and start earning with TikTok videos.</p>
+          </div>
+        </div>
       </div>
+
+      <p class="trust">Trusted by over 500,000 users earning money daily</p>
     </div>
   </div>
 </div>
 
 <script>
-  let totalPaidOut = 766668;
-  let peopleOnline = 4584;
-
-  function formatNumber(n) {
-    return n.toLocaleString();
-  }
-
-  setInterval(() => {
-    totalPaidOut += Math.floor(Math.random() * 501) + 500;
-    peopleOnline = Math.floor(Math.random() * 501) + 4500;
-    document.getElementById('paidOut').textContent = '$' + formatNumber(totalPaidOut);
-    document.getElementById('online').textContent = formatNumber(peopleOnline);
-  }, 2000);
-
   function selectAge() {
-    document.getElementById('buttons').innerHTML =
-      '<a href="https://spnccrzone.com/?es4v=tsduaB1m1h6Ee0%2fzg%2fkJzvNbPrrdPs2yvQJDRoz7h5U%3d&s1=nymdec15" target="_blank" rel="noopener noreferrer" class="btn-claim">Claim Reward!</a>';
+    document.getElementById('screen1').classList.add('hidden');
+    document.getElementById('screen2').classList.remove('hidden');
   }
 </script>
 </body>
