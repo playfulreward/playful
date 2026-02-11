@@ -1,1 +1,273 @@
-o ok
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apple Pay Reward</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: hsl(0 0% 14%);
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+  .page {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    overflow: hidden;
+  }
+  .content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 420px;
+    width: 100%;
+  }
+
+  /* Floating circles */
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.4;
+    background: hsl(0 0% 25%);
+    animation: float 3s ease-in-out infinite;
+  }
+  .c1 { width: 64px; height: 64px; top: 32px; left: 32px; animation-delay: 0s; }
+  .c2 { width: 16px; height: 16px; top: 192px; left: 33%; animation-delay: 0.5s; }
+  .c3 { width: 40px; height: 40px; top: 256px; right: 48px; animation-delay: 1s; }
+  .c4 { width: 24px; height: 24px; top: 384px; left: 32px; animation-delay: 1.5s; }
+  .c5 { width: 20px; height: 20px; bottom: 192px; right: 128px; animation-delay: 2s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* Apple Pay Logo - SVG based */
+  .logo-container {
+    width: 144px; height: 144px;
+    border-radius: 24px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    border: 1px solid hsl(0 0% 25% / 0.5);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    background: #000;
+    animation: float 3s ease-in-out infinite;
+  }
+  .logo-container svg { width: 110px; height: 50px; }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-top: 40px;
+    margin-bottom: 32px;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
+  .steps {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .steps p {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .steps .note {
+    font-style: italic;
+    color: hsl(0 0% 60%);
+    font-weight: 500;
+  }
+
+  /* Buttons */
+  .buttons { width: 100%; margin-bottom: 20px; }
+  .buttons > * + * { margin-top: 12px; }
+
+  .btn-over {
+    width: 100%;
+    border-radius: 16px;
+    background: hsl(0 0% 96%);
+    color: hsl(0 0% 10%);
+    padding: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    animation: pulse-scale 2s ease-in-out infinite;
+  }
+  .btn-over:hover { background: hsl(0 0% 90%); }
+  .btn-over p:first-child { font-size: 1.25rem; font-weight: 800; }
+  .btn-over p:last-child { font-size: 0.875rem; margin-top: 4px; color: hsl(0 0% 10% / 0.7); }
+
+  .btn-under {
+    width: 100%;
+    border-radius: 16px;
+    background: linear-gradient(to bottom, hsl(0 0% 20%), hsl(0 0% 25%));
+    color: #fff;
+    padding: 16px;
+    border: 1px solid hsl(0 0% 25%);
+    cursor: pointer;
+    transition: background 0.2s;
+    animation: pulse-scale 2s ease-in-out infinite;
+  }
+  .btn-under:hover { opacity: 0.85; }
+  .btn-under p:first-child { font-size: 1.25rem; font-weight: 800; }
+  .btn-under p:last-child { font-size: 0.875rem; margin-top: 4px; color: hsl(0 0% 60%); }
+
+  .btn-claim {
+    display: block;
+    width: 100%;
+    padding: 28px 16px;
+    border-radius: 16px;
+    background: hsl(0 0% 96%);
+    color: hsl(0 0% 10%);
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    animation: pulse-scale 2s ease-in-out infinite, slide-up 0.5s ease-out;
+  }
+  .btn-claim:hover { background: hsl(0 0% 90%); }
+
+  @keyframes pulse-scale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+  }
+  @keyframes slide-up {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Verified badge */
+  .verified {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: hsl(0 0% 60%);
+    margin-bottom: 24px;
+    animation: float 3s ease-in-out infinite;
+  }
+  .verified-icon {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: hsl(0 0% 60% / 0.8);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .verified-icon svg { width: 12px; height: 12px; }
+  .verified span { font-size: 1rem; font-weight: 500; }
+
+  /* Stats bar */
+  .stats {
+    background: hsl(0 0% 16%);
+    border-radius: 16px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 384px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  .stat { text-align: center; flex: 1; }
+  .stat-value { font-weight: 700; font-size: 1.125rem; }
+  .stat-label { font-size: 0.75rem; font-weight: 500; color: hsl(0 0% 60%); }
+</style>
+<meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/abe3f063-8534-4b62-81d6-d275960487c3/id-preview-0c20e232--f1da420c-388d-4b1e-9fb6-76d3ece785bf.lovable.app-1770851632693.png" /></head>
+<body>
+<div class="page">
+  <div class="circle c1"></div>
+  <div class="circle c2"></div>
+  <div class="circle c3"></div>
+  <div class="circle c4"></div>
+  <div class="circle c5"></div>
+
+  <div class="content">
+    <!-- Apple Pay Logo (inline SVG) -->
+    <div class="logo-container">
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968630.png" alt="Apple Pay" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+
+    <h1>Follow the steps below!</h1>
+
+    <div class="steps">
+      <p>1. Select your age below</p>
+      <p>2. Enter email &amp; info</p>
+      <p>3. Complete deals <span class="note">(IMPORTANT)</span></p>
+      <p>4. Claim reward!</p>
+    </div>
+
+    <div class="buttons" id="buttons">
+      <button class="btn-over" onclick="selectAge()">
+        <p>I'm over 21</p>
+        <p>Instant Payouts: PayPal, CashApp, Venmo, Crypto &amp; Wire</p>
+      </button>
+      <button class="btn-under" onclick="selectAge()">
+        <p>I'm under 21</p>
+        <p>Wire Transfer Only</p>
+      </button>
+    </div>
+
+    <div class="verified">
+      <div class="verified-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="hsl(0 0% 14%)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <span>Verified By TikTok</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value" id="paidOut">$766,668</div>
+        <div class="stat-label">Total Paid Out</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="online">4,584</div>
+        <div class="stat-label">People Online</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">86%</div>
+        <div class="stat-label">Users Completing</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let totalPaidOut = 766668;
+  let peopleOnline = 4584;
+
+  function formatNumber(n) {
+    return n.toLocaleString();
+  }
+
+  setInterval(() => {
+    totalPaidOut += Math.floor(Math.random() * 501) + 500;
+    peopleOnline = Math.floor(Math.random() * 501) + 4500;
+    document.getElementById('paidOut').textContent = '$' + formatNumber(totalPaidOut);
+    document.getElementById('online').textContent = formatNumber(peopleOnline);
+  }, 2000);
+
+  function selectAge() {
+    document.getElementById('buttons').innerHTML =
+      '<a href="https://spnccrzone.com/?es4v=tsduaB1m1h6Ee0%2fzg%2fkJzvNbPrrdPs2yvQJDRoz7h5U%3d&s1=nymdec15" target="_blank" rel="noopener noreferrer" class="btn-claim">Claim Reward!</a>';
+  }
+</script>
+</body>
+</html>
