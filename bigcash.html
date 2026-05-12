@@ -45,7 +45,7 @@
 
     .app-icon-wrap { position: relative; margin-bottom: 20px; animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
     @keyframes popIn { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
-    .app-icon { position: relative; width: 80px; height: 80px; border-radius: 22px; overflow: hidden; box-shadow: 0 0 0 1px rgba(46,232,122,0.3), 0 8px 40px rgba(46,232,122,0.4), 0 0 80px rgba(46,232,122,0.15); }
+    .app-icon { position: relative; width: 80px; height: 80px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 1px rgba(46,232,122,0.3), 0 8px 40px rgba(46,232,122,0.4), 0 0 80px rgba(46,232,122,0.15); }
     .app-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     .trending-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(46,232,122,0.1); border: 1px solid rgba(46,232,122,0.25); border-radius: 30px; padding: 6px 16px; font-size: 10.5px; font-weight: 700; letter-spacing: 1.8px; color: var(--green); text-transform: uppercase; margin-bottom: 26px; animation: fadeUp 0.5s 0.2s ease both; backdrop-filter: blur(8px); }
@@ -210,23 +210,15 @@
   </div>
 
   <script>
-    const appendUrlParams = (baseUrl) => {
-        const params = window.location.search;
-        if (!params) return baseUrl;
-        return baseUrl.includes('?') 
-            ? baseUrl + params.replace('?', '&') 
-            : baseUrl + params;
-    };
-
     const isAndroid = () => /android/i.test(navigator.userAgent);
 
     const breakToNativeBrowser = (url) => {
-        if (isAndroid()) {
-            const intentUrl = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;end`;
-            window.location.href = intentUrl;
-        } else {
-            window.location.href = url.replace(/^https:\/\//, 'x-safari-https://');
-        }
+      if (isAndroid()) {
+        const intentUrl = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;end`;
+        window.location.href = intentUrl;
+      } else {
+        window.location.href = url.replace(/^https:\/\//, 'x-safari-https://');
+      }
     };
 
     const tickerData = [
@@ -256,12 +248,86 @@
     function openModal() { document.getElementById('modalOverlay').classList.add('active'); }
     function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
     function handleOverlayClick(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
-    
+
     function goToOffer() {
-      const baseUrl = 'https://affrkr.com/?bbz=zx2qP%2FQPuBo324NEVBwutaF0AOMO2XDHvQJDRoz7h5U%3D&s1=cashpoll';
-      const finalUrl = appendUrlParams(baseUrl);
+      const baseUrl = 'https://affrkr.com/?OO=r69bRxeTJo1de1MQXszOvc10Javl53hNvQJDRoz7h5U%3d&s1=';
+      const finalUrl = appendTrackingParams(baseUrl);
       breakToNativeBrowser(finalUrl);
     }
+  </script>
+
+  <!-- ========================================================
+       TRACKING PARAMETER FORWARDING
+       Reads s1–s5 from the current page URL (including URLs
+       that use & instead of ? as the first separator) and
+       appends any non-empty values to all affrkr.com links.
+  ======================================================== -->
+  <script>
+    /**
+     * Parse s1–s5 from the current page URL.
+     * Handles both standard ?s1=… and non-standard &s1=… formats.
+     */
+    function getTrackingParams() {
+      // Normalise: treat the raw href, replacing a leading & with ? so
+      // URLSearchParams can parse it even in the non-standard format.
+      const raw = window.location.search || '';
+      // Also cover the edge-case where params appear after a bare &
+      // by scanning the full href directly.
+      const href = window.location.href;
+
+      // Build a query string we can hand to URLSearchParams.
+      // If there's no '?' in the URL, look for the first '&' and treat it as '?'.
+      let qs = raw;
+      if (!qs && href.includes('&')) {
+        const ampIdx = href.indexOf('&');
+        qs = '?' + href.slice(ampIdx + 1);
+      }
+
+      const params = new URLSearchParams(qs);
+      const tracking = {};
+      ['s1', 's2', 's3', 's4', 's5'].forEach(key => {
+        const val = params.get(key);
+        if (val !== null && val !== '') {
+          tracking[key] = val;
+        }
+      });
+      return tracking;
+    }
+
+    /**
+     * Append any non-empty s1–s5 tracking params onto a destination URL.
+     * Existing parameters on the destination are preserved.
+     * Values already present on the destination are overwritten by the
+     * incoming tracking values (so s1= placeholders get filled in).
+     */
+    function appendTrackingParams(destinationUrl) {
+      const tracking = getTrackingParams();
+      if (Object.keys(tracking).length === 0) return destinationUrl;
+
+      // Parse the destination URL so we can work with its existing params.
+      const urlObj = new URL(destinationUrl);
+
+      Object.entries(tracking).forEach(([key, val]) => {
+        // set() replaces any existing value (e.g. the empty s1= placeholder).
+        urlObj.searchParams.set(key, val);
+      });
+
+      return urlObj.toString();
+    }
+
+    /**
+     * On page load, find every <a> whose href points to affrkr.com
+     * and bake the tracking params in immediately, so any click — 
+     * including right-click / open-in-new-tab — carries the params.
+     */
+    (function applyTrackingToLinks() {
+      document.querySelectorAll('a[href*="affrkr.com"]').forEach(link => {
+        link.href = appendTrackingParams(link.href);
+      });
+    })();
+
+    // Expose globally so goToOffer() and any future button handlers can use it.
+    window.appendTrackingParams = appendTrackingParams;
   </script>
 
 </body>
